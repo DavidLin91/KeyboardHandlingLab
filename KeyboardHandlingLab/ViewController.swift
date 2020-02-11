@@ -11,13 +11,14 @@ import UIKit
 class ViewController: UIViewController {
     
     @IBOutlet var backgroundGradient: UIView!
-    @IBOutlet weak var superMarioHeight: NSLayoutConstraint!
+    @IBOutlet weak var superMarioLabelCenterY: NSLayoutConstraint!
     @IBOutlet weak var userNameTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
     
     private var originalYConstraint: NSLayoutConstraint!
     
     private var keyboardIsVisible = false
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,6 +28,9 @@ class ViewController: UIViewController {
         gradientLayer.colors = [#colorLiteral(red: 0.4745098054, green: 0.8392156959, blue: 0.9764705896, alpha: 1).cgColor,#colorLiteral(red: 0.1764705926, green: 0.4980392158, blue: 0.7568627596, alpha: 1).cgColor, #colorLiteral(red: 0.05882352963, green: 0.180392161, blue: 0.2470588237, alpha: 1).cgColor]
         gradientLayer.shouldRasterize = true
         backgroundGradient.layer.addSublayer(gradientLayer)
+        
+        
+        
         registerForKeyboardNotifs()
         passwordTextField.delegate = self
         userNameTextField.delegate = self
@@ -69,9 +73,8 @@ class ViewController: UIViewController {
     private func moveKeyboardUp(_ height: CGFloat) {
         
         if keyboardIsVisible { return }
-        originalYConstraint = superMarioHeight // save original value
-        superMarioHeight.constant -= height // (height * 0.80)
-        
+        originalYConstraint = superMarioLabelCenterY // save original value
+        superMarioLabelCenterY.constant -= height // (height * 0.80)
         UIView.animate(withDuration: 0.5) {
             self.view.layoutIfNeeded()
         }
@@ -80,7 +83,7 @@ class ViewController: UIViewController {
     
     private func resetUI() {
         keyboardIsVisible = false
-        superMarioHeight.constant -= originalYConstraint.constant
+        superMarioLabelCenterY.constant -= originalYConstraint.constant
         UIView.animate(withDuration: 0.25) {
             self.view.layoutIfNeeded()
         }
